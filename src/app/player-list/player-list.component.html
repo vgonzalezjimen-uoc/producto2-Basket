@@ -1,0 +1,44 @@
+<h2>Lista de Jugadores</h2>
+
+<div *ngFor="let player of players$ | async" class="card">
+  <h3>{{ player.name }}</h3>
+  <p>Edad: {{ player.age }}</p>
+  <p>Equipo: {{ player.team }}</p>
+
+  <!-- Imagen -->
+  <img *ngIf="player.imageUrl" [src]="player.imageUrl" alt="foto" width="200">
+
+  <!-- Video -->
+  <video *ngIf="player.videoUrl" [src]="player.videoUrl" controls width="320" height="240">
+    Tu navegador no soporta el elemento de video.
+  </video>
+
+  <button (click)="player.id && delete(player.id)">Eliminar</button>
+  <button *ngIf="player.id" (click)="startEditing(player)">Editar</button>
+
+  <!-- Formulario de edición debajo del jugador -->
+  <div *ngIf="editingPlayerId === player.id">
+    <h4>Editar jugador</h4>
+    <form (ngSubmit)="updatePlayer()">
+      <ng-container *ngIf="editingPlayer">
+        <label>Nombre:</label>
+        <input type="text" [(ngModel)]="editingPlayer.name" name="name" required>
+
+        <label>Edad:</label>
+        <input type="number" [(ngModel)]="editingPlayer.age" name="age" required>
+
+        <label>Equipo:</label>
+        <input type="text" [(ngModel)]="editingPlayer.team" name="team" required>
+
+        <label>Imagen:</label>
+        <input type="file" (change)="onFileSelected($event, 'image')" accept="image/*" />
+
+        <label>Vídeo:</label>
+        <input type="file" (change)="onFileSelected($event, 'video')" accept="video/*" />
+
+        <button type="submit">Modificar jugador</button>
+        <button type="button" (click)="cancelEditing()">Cancelar</button>
+      </ng-container>
+    </form>
+  </div>
+</div>

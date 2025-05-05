@@ -1,0 +1,23 @@
+<h3 *ngIf="!isEditMode">Añadir nuevo jugador</h3>
+<h1 *ngIf="isEditMode">EDITANDO: {{ player.name }}</h1>
+
+<form (ngSubmit)="onSubmit()">
+  <label>Nombre:</label>
+  <input type="text" [(ngModel)]="player.name" name="name" required>
+
+  <label>Edad:</label>
+  <input type="number" [(ngModel)]="player.age" name="age" required>
+
+  <label>Equipo:</label>
+  <input type="text" [(ngModel)]="player.team" name="team" required>
+
+  <label>Imagen:</label>
+  <input type="file" (change)="onFileSelected($event, 'image')" accept="image/*" />
+  
+  <label>Vídeo:</label>
+  <input type="file" (change)="onFileSelected($event, 'video')" accept="video/*" />
+
+  <button type="submit">
+    {{ isEditMode ? 'Actualizar jugador' : 'Guardar jugador' }}
+  </button>
+</form>
